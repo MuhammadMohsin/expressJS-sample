@@ -1,9 +1,7 @@
-FROM node as prod-build
-COPY package.json ./
-RUN yarn install
-COPY . ./
-
-# Stage 2 - the production environment
-FROM nginx
-COPY --from=prod-build . /usr/share/nginx/html
+FROM node:7.7.2-alpine
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+CMD ["npm", "start"]
 EXPOSE 8080
